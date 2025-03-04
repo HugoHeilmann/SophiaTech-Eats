@@ -1,0 +1,230 @@
+@startuml
+
+left to right direction
+
+class Capacity {
+  - capacity: int[][]
+  + update(int, LocalTime[], LocalTime[]): void
+  + updateForAllDays(Map<Integer, LocalTime[]>, Map<Integer, LocalTime[]>): void
+  - getHalfHourIntervals(LocalTime, LocalTime): List<Integer>
+  + getCapacityForSlot(int, int): int
+  + setCapacityForDay(int, int[]): void
+  + getCapacityForDay(int): int[]
+  + setClosedMomentsForDay(int, LocalTime[]): void
+  + setCapacityForSlot(int, int, int): void
+  + getCapacityForNow(void): int
+  + setClosedMoments(Map<Integer, LocalTime[]>): void
+}
+
+/'class CommonFacade {
+  - instance: CommonFacade
+  + browseMenus(int, Optional<Integer>): Data[]
+  + browseRestaurants(String, FoodType, String): Data[]
+   instance: CommonFacade
+}'/
+
+class Customer {
+  - id: int
+  - status: CustomerStatus
+  - name: String
+  - balance: float
+  + resetId(): void
+  + addOrderToHistory(Order): void
+  + addLocation(Location): void
+  + deleteLocation(int): void
+  + toData(): Data
+  + getNumberOfOrderIn(Restaurant): int
+}
+
+/'class CustomerNotFoundException'/
+
+/'enum CustomerStatus << enumeration >> {
+  + values(): CustomerStatus[]
+  + valueOf(String): CustomerStatus
+}'/
+
+/'class Database {
+  - instance: Database
+  - restaurants: List<Restaurant>
+  - initializeGroups(): void
+  - initializeCustomers(): void
+  + addRestaurant(Restaurant): void
+  + getFilteredRestaurants(String, FoodType, String): List<Restaurant>
+  + getGroupById(int): Group
+  - getRestaurantsByFoodType(FoodType): List<Restaurant>
+  + addCustomer(Customer): void
+  - getRestaurantsByName(String): List<Restaurant>
+  + getCustomerById(int): Customer
+  + addGroup(Group): void
+  + removeCustomerById(int): void
+  + getRestaurantById(int): Restaurant
+  - getRestaurantByCapacity(String): List<Restaurant>
+  + removeRestaurantById(int): void
+  + initializeData(): void
+  + removeGroupById(int): void
+  - initializeRestaurants(): void
+   restaurants: List<Restaurant>
+   instance: Database
+}'/
+
+/'class FidelityStrategy {
+  + availableDiscount(Builder): double
+   offerDescription: String
+}'/
+
+/'enum FoodType << enumeration >> {
+  + valueOf(String): FoodType
+  + values(): FoodType[]
+}'/
+
+class Group {
+  - id: int
+  - delivery: LocalTime
+  - location: Location
+  + toData(): Data
+  + resetId(): void
+  + getMembersId() : List<Integer>
+  + addMember(Customer) : void
+  + create(LocalTime, Location): Group
+  + close(int): boolean
+}
+
+/'class GroupNotFoundException'/
+
+/'class HappyHourStrategy {
+  + availableDiscount(Builder): double
+   offerDescription: String
+}'/
+
+class Location {
+  - latitude: double
+  - longitude: double
+  - address: String
+  + toString(): String
+}
+
+/'class LocationFactory {
+  + createLocation(String): Location
+  + createLocation(double, double): Location
+  + createLocation(double, double, String): Location
+}'/
+
+/'class ManagementFacade {
+  - instance: ManagementFacade
+  + updateSchedule(int, DayOfWeek, String, String): Data
+  + addMenu(int, Menu): void
+  + updateCapacity(int, int, int, int, int): void
+  + updateMenu(int, String, String, Object): void
+  + deleteMenu(int, Menu): void
+  + updateSchedule(int, String, String): Data
+   instance: ManagementFacade
+}'/
+
+class Menu {
+  - price: double
+  - description: String
+  - name: String
+  - foodType: FoodType
+  - preparation: int
+  + toData(): Data
+   foodType: FoodType
+   name: String
+   description: String
+   preparation: int
+   price: double
+}
+
+/'interface OfferStrategy << interface >> {
+  + availableDiscount(Builder): double
+   offerDescription: String
+}'/
+
+class Order {
+  - price: double
+  - preparationTime: double
+  - delivery: LocalTime
+  - orderDate: LocalTime
+  - possibleDelivery: LocalTime
+  + toData(): Data
+}
+
+class Builder {
+  - price: double
+  - preparationTime: double
+  - delivery: LocalTime
+  - orderDate: LocalTime
+  - possibleDelivery: LocalTime
+  + toData(): Data
+  + price(int): Builder
+  + delivery(LocalTime): Builder
+  + orderDate(LocalTime): Builder
+  + location(Location): Builder
+  + addMenu(Menu): Builder
+  - applyDiscount(double): Builder
+  - updateDeliveryDate(Menu): void
+  + build(void): Order
+}
+
+/'class OrderFacade {
+  - instance: OrderFacade
+  + initOrder(int, int): Data
+  + setDeliveryDate(LocalTime, int): Data
+  + registerLocation(String, int): boolean
+  + deleteLocation(int, int): boolean
+  + setOrderLocation(int, int): Data
+  + closeGroup(int): boolean
+  + setOrderGroup(int, int): Data
+  + validateAndPayOrder(int): boolean
+  + createGroup(LocalTime, String): Data
+  + addMenuToOrder(String, int): Data
+   instance: OrderFacade
+}'/
+
+class Restaurant {
+  - strategy: OfferStrategy
+  - phone: String
+  - email: String
+  - orderChargeable: int
+  - id: int
+  - name: String
+  - address: String
+  - foodTypes: List<FoodType>
+  + getMenuByAvailability(int): List<Menu>
+  + addMenu(Menu): void
+  + getScheduleAtDay(int): LocalTime[]
+  + setCapacity(int, int, int): void
+  + getMenuByName(String): Menu
+  + toData(): Data
+  + resetId(): void
+  + deleteMenu(Menu): void
+  + setSchedule(DayOfWeek, String, String): void
+  + increaseOrderChargeable(): void
+  + decreaseOrderChargeable(): void
+  + setScheduleForAllDays(String, String): void
+  + meanTimeForOrder(void): int
+  + isChargeable(void): boolean
+}
+
+
+Customer                    "1" o-[#595959,plain]-> "0..*" Location
+Customer                    "1" *-[#595959,plain]-> "0..*" Order
+Customer                    "1" o-[#595959,plain]-> "1" Builder
+
+
+Group                       "1" *-[#595959,plain]-> "1" Location
+
+
+Order                           +-[#595959,plain]->     Builder
+Order                       "1" *-[#595959,plain]-> "1" Location
+Order                       "1" *-[#595959,plain]-> "0..*" Menu
+Order                       "1" *-[#595959,plain]-> "1" Restaurant
+Order                       "0..*" *-[#595959,plain]-> "0..1" Group
+
+Builder                       "1" *-[#595959,plain]-> "1" Location
+Builder                       "1" *-[#595959,plain]-> "0..*" Menu
+Builder                       "1" *-[#595959,plain]-> "1" Restaurant
+Builder                       "0..*" *-[#595959,plain]-> "0..1" Group
+
+Restaurant                  "1" o-[#595959,plain]-> "1" Capacity
+Restaurant                  "1" o-[#595959,plain]-> "0..*" Menu
+@enduml

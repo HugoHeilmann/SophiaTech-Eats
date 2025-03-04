@@ -1,0 +1,28 @@
+<button id="button" (click)="show()">
+    <span class="material-icons">group_add</span> 
+    <p>Créer un groupe</p>
+</button>
+
+<div id="popup" *ngIf="showDetails && isConnected">
+    <button id="close" (click)="close()">X</button>
+
+    <div *ngIf="!created" id="filling">
+        <p>Localisation :</p>
+        <input type="text" placeholder="Localisation" [(ngModel)]="location.address" (input)="onAddressInput($event)" />
+        <ul *ngIf="suggestions.length > 0">
+            <li *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)">
+                {{ suggestion.label }}
+            </li>
+        </ul>
+        <p>Horaire :</p>
+        <select id="example" name="example" [(ngModel)]="hourly" (change)="onTimeChange($event)">
+            <option value="">Selectionnez un horaire</option>
+            <option *ngFor="let hourly of restaurantAvailability" [value]="hourly">{{hourly}}</option>
+        </select>
+        <button id="create" (click)="create()">Créer ma commande</button>
+    </div>
+    <div *ngIf="created" id="created">
+        <div>Votre numéro de groupe est</div>
+        <div id="id">{{group.id}}</div>
+    </div>
+</div>

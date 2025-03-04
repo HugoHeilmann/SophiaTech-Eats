@@ -1,0 +1,13 @@
+<div id="profile">
+    <button id="button" (click)="show()">
+        <span class="material-icons">person</span> 
+        <p>Profil</p>
+    </button>
+    <div *ngIf="showDetails" class="connect">
+        <ul>
+            <li *ngFor="let menuItem of isLogged ? logoutMenu : logginMenu; let i = index" [ngClass]="{ 'border-bottom': i !== 1 }">
+                <div (click)="menuItem.action()">{{ menuItem.name }}</div>
+            </li>
+        </ul>
+    </div>
+</div>

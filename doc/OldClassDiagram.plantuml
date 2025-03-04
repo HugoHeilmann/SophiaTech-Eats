@@ -1,0 +1,58 @@
+@startuml
+
+class Restaurant {
+    - String name
+    - String address
+    - String phone
+    - String email
+    - Time schedule
+
+    + int getStaffNumber()
+    + void showMenuItems()
+}
+
+class Order {
+    - Date deliveryDate
+    - Location location
+
+    + void callExternalPayment()
+}
+
+class MenuItem {
+    - String name
+    - String description
+    - double price
+    - double preparationTime
+}
+
+class GroupOrder {
+    - Date deliveryDate
+    - Location location
+    - int id
+}
+
+class User {
+    - int userId
+    - String name
+    - String email
+    - String location
+
+}
+
+class RestaurantManager {
+    - int managerId
+    - String name
+    - String contactInfo
+
+    + void updateMenu(MenuItem item)
+    + void updateOpeningHours(String newHours)
+}
+
+User "1" *-- "0..*" Order
+User "1..*" *-- "0..1" GroupOrder
+RestaurantManager "1..*" o-- "1" Restaurant
+Order "0..*" o-- "1..*" MenuItem
+MenuItem "1..*" --* "1" Restaurant
+GroupOrder "0..1" o-- "1..*" Order
+
+@enduml

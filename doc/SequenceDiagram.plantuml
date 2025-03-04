@@ -1,0 +1,83 @@
+@startuml
+    actor "Utilisateur enregistré" as User
+    boundary UI
+    participant OrderFacade
+    participant CommonFacade
+    participant Restaurant
+    participant Customer
+    participant Group
+    participant OrderBuilder
+    participant Order
+    actor "External payment" as EP
+
+    autonumber 1:1
+    User ->> UI : Entrer l'ID de la commande groupée
+    UI ->> OrderFacade: joinGroup(int groupId, int customerId)
+    OrderFacade ->> Customer: joinGroup(int groupId, int customerId)
+    Customer ->> Group: addMember(Customer customer)
+    Group ->> UI: return success
+
+    autonumber 2:1
+    User ->> UI: Choisir un restaurant
+    UI ->> CommonFacade: browseRestaurants(String name, FoodType foodType, String availability)()
+    CommonFacade ->>Restaurant: getFilteredRestaurants()
+    Restaurant ->> UI: return RestaurantData
+
+    autonumber 3:1
+    User ->> UI: Créer une commande
+    UI ->> OrderFacade: initOrder(int restaurantId, int customerId)
+    create OrderBuilder
+    OrderFacade ->> OrderBuilder: new Order.Builder(restaurant, customer)
+    OrderBuilder ->> OrderFacade: return OrderBuilder
+    OrderFacade ->> Customer: setBasket(orderBuilder)
+    Customer ->> OrderFacade: setOrderGroup(int groupId, int customerId)
+    OrderFacade ->> Customer: getCustomerById(customerId)
+    Customer ->> OrderFacade: return Customer
+    OrderFacade ->> Customer: getBasket()
+    OrderFacade ->> OrderBuilder: location(Database.getInstance().getGroupById(groupId).getLocation())
+    OrderFacade ->> OrderBuilder: delivery(Database.getInstance().getGroupById(groupId).getDelivery())
+    OrderFacade ->> Restaurant: decreaseOrderChargeable()
+
+    autonumber 4:1
+    loop Rechercher et ajouter un article au panier
+        User ->> UI: Rechercher un article
+        UI ->> CommonFacade: browseMenus(int restaurantId, Optional<Integer> customerId)
+        CommonFacade ->> Restaurant: getMenus()
+        Restaurant ->> CommonFacade: return MenuData
+
+        User ->> UI: Ajouter un article au panier
+        UI ->> OrderFacade: addMenuToOrder(String menuName, int customerId)
+        OrderFacade ->> Customer: getBasket()
+        Customer ->> OrderFacade: return Basket
+        OrderFacade ->> OrderBuilder: getRestaurant()
+        OrderBuilder ->> OrderFacade: return Restaurant
+        OrderFacade ->> Restaurant: getMenuByName(menuName)
+        Restaurant ->> OrderFacade: return Menu
+        OrderFacade ->> OrderBuilder: addMenu(Menu menu)
+        OrderBuilder ->> OrderFacade: return sucess
+    end
+
+    autonumber 5:1
+    User ->> UI: Valider la commande
+    UI ->> OrderFacade: validateAndPayOrder(int customerId)
+    OrderFacade ->> Customer: getBasket()
+    Customer ->> OrderBuilder: build()
+    OrderBuilder ->> Restaurant: getStrategy().availableDiscount(this)
+    Restaurant ->> OrderBuilder: return applyDiscount(discount)
+    create Order
+    OrderBuilder ->> Order: new Order(basket, customer, location, delivery)
+    Order ->> OrderFacade: return Order
+
+
+    autonumber 6:1
+    User ->> UI: Payer la commande
+    UI ->> Order: payOrder()
+    Order ->> EP: callExternalPayment()
+    EP ->> Order: return success
+    Order ->> Restaurant: increaseOrderChargeable()
+    Order ->> OrderFacade: return success
+    OrderFacade ->> Customer: addOrderToHistory(null)
+    OrderFacade ->> Customer: setBasket(null)
+
+
+@enduml

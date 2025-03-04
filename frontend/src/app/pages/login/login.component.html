@@ -1,0 +1,25 @@
+<div class="login-page">
+  <div class="bg"></div>
+  <img src="../../../assets/xmark-solid.svg" alt="Close" class="close" (click)="close()">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1>Se connecter</h1>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="Entrez votre email" autocomplete="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="Entrez votre mot de passe" autocomplete="current-password">
+    </mat-form-field>
+
+    <button type="submit" class="btn">Se connecter</button>
+    <a href="/register">Pas encore de compte ? Inscrivez-vous</a>
+    <div class="external-login">
+      <img src="../../../assets/google-brands-solid.svg" alt="Google" (click)="loginWithGoogle()">
+      <img src="../../../assets/facebook-brands-solid.svg" alt="Facebook" (click)="loginWithFacebook()">
+    </div>
+  </form>
+</div>
+<app-toaster [isError]="isError" [isDisplayed]="displayToaster"></app-toaster>

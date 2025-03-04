@@ -1,0 +1,57 @@
+<div id="basket-details" *ngIf="isConnected">
+    <div id="entete-basket-card">
+        <div id="basket-btn">
+            <span class="material-icons">shopping_cart</span>         
+        </div>
+    
+        <button id="join-groupe-button" (click)="openJoinGroupModal()">Rejoindre un groupe</button>
+    </div>
+
+    <div id="state-order-created" *ngIf="state === 'create-order'">
+        <img src="/assets/caddie.png">
+        <button id="new-order" (click)="createOrder()">Créer ma commande</button>
+    </div>
+
+    <div id="state-validate" *ngIf="state === 'init-order'">
+        <p>Localisation :</p>
+        <input type="text" placeholder="Localisation" [(ngModel)]="location.address" (input)="onAddressInput($event)">
+        <ul *ngIf="suggestions.length > 0">
+            <li *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)">
+                {{ suggestion.label }}
+            </li>
+        </ul>
+        <p>Horaire :</p>
+        <select id="example" name="example" [(ngModel)]="hour" (change)="onTimeChange($event)">
+            <option value="">Selectionnez une horaire</option>
+            <option *ngFor="let hour of restaurantAvailability" [value]="hour">{{hour}}</option>
+        </select>
+        <button id="create" (click)="setStepValidate()">Créer ma commande</button>
+    </div>
+
+    <div id="order" *ngIf="state === 'validate'">
+        <div class="order-content">
+            <p>Ma commande :</p>
+            <div class="buttons">
+                <button><span class="material-icons">group_add</span></button>
+                <button><span class="material-icons">logout</span></button>
+            </div>
+        </div>
+        <img src="/assets/caddie.png" *ngIf="basket_content.length === 0; else contentAvailable">
+        <ng-template #contentAvailable id="content-available">
+            <div class="menu-cards-container">
+              <app-item-card class="item" *ngFor="let menu of basket_content" [menu]="menu" [isClickAllowed]="false" (addMenu)="handleAddMenu($event)"></app-item-card>
+            </div>
+            <p>Prix total : {{getTotalPrice()}}€</p>
+            <button id="validate" (click)="setStepFinishOrder()">Valider la commande</button>
+        </ng-template>
+    </div>
+
+    <div id="join-group-modal" *ngIf="showJoinGroupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeJoinGroupModal()">&times;</span>
+            <h2>Rejoindre un groupe</h2>
+            <input type="text" placeholder="Group ID" [(ngModel)]="groupId">
+            <button (click)="joinGroupOrder()">Rejoindre</button>
+        </div>
+    </div>
+</div>

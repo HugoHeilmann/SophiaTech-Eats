@@ -1,0 +1,12 @@
+<div class="restaurant-page">
+    <app-sidebar>
+        <app-basket></app-basket>
+    </app-sidebar>
+    <img [src]="this.photo">
+    <button id="back" (click)="back()"><span class="material-icons">undo</span></button>
+    <div class="main-content">
+            <div class="items-container">
+                <app-item-card class="item" *ngFor="let menu of menus; let i = index" [menu]="menu" (addMenu)="handleAddMenu($event)"></app-item-card>
+            </div>
+    </div>
+</div>

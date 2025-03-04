@@ -1,0 +1,62 @@
+@startuml
+
+/'!theme plain
+top to bottom direction
+skinparam linetype ortho'/
+
+class Capacity
+class CommonFacade
+class Customer
+exception CustomerNotFoundException
+enum CustomerStatus << enumeration >>
+class Database
+class FidelityStrategy
+enum FoodType << enumeration >>
+class Group
+exception GroupNotFoundException
+class HappyHourStrategy
+class Location
+class LocationFactory
+class ManagementFacade
+class Menu
+interface OfferStrategy << interface >>
+class Order
+class OrderFacade
+class Restaurant
+exception RestaurantNotFoundException
+class StudentStrategy
+
+Customer                    "1" o-[#595959,plain]-> "1" CustomerStatus
+Customer                    "1" o-[#595959,plain]-> "0..*" Location
+Customer                    "1" *-[#595959,plain]-> "0..*" Order
+/'Database                     -[#595959,dashed]->  Capacity                    : "«create»"'/
+Database                    "1" o-[#595959,plain]-> "0..*" Customer
+/'Database                    "1" *-[#595959,plain]-> "customers\n*" Customer'/
+Database                     -[#595959,dashed]->  CustomerNotFoundException   : "«create»"
+/'Database                     -[#595959,dashed]->  FidelityStrategy            : "«create»"'/
+/'Database                    "1" *-[#595959,plain]-> "groups\n*" Group'/
+Database                    "1" o-[#595959,plain]-> "0..*" Group
+Database                     -[#595959,dashed]->  GroupNotFoundException      : "«create»"
+/'Database                     -[#595959,dashed]->  HappyHourStrategy           : "«create»"'/
+/'Database                     -[#595959,dashed]->  Menu                        : "«create»"'/
+/'Database                    "1" *-[#595959,plain]-> "restaurants\n*" Restaurant'/
+Database                    "1" o-[#595959,plain]-> "0..*" Restaurant
+Database                     -[#595959,dashed]->  RestaurantNotFoundException : "«create»"
+/'Database                     -[#595959,dashed]->  StudentStrategy             : "«create»"'/
+FidelityStrategy             -[#008200,dashed]-^  OfferStrategy               
+Group                       "1" *-[#595959,plain]-> "1" Location
+HappyHourStrategy            -[#008200,dashed]-^  OfferStrategy               
+LocationFactory              -[#595959,dashed]->  Location                    : "«create»"
+Menu                        "1" o-[#595959,plain]-> "1" FoodType
+/'Order                       "1" *-[#595959,plain]-> "1" Customer'/
+Order                       "1" *-[#595959,plain]-> "1" Location
+Order                       "1" *-[#595959,plain]-> "0..*" Menu
+Order                       "1" *-[#595959,plain]-> "1" Restaurant
+Order                       "0..*" *-[#595959,plain]-> "0..1" Group
+Restaurant                  "1" o-[#595959,plain]-> "1" Capacity
+/'Restaurant                   -[#595959,dashed]->  FoodType                    : "«create»"'/
+Restaurant                  "1" *-[#595959,plain]-> "0..*" FoodType
+Restaurant                  "1" o-[#595959,plain]-> "0..*" Menu
+Restaurant                  "1" o-[#595959,plain]-> "1" OfferStrategy
+StudentStrategy              -[#008200,dashed]-^  OfferStrategy               
+@enduml

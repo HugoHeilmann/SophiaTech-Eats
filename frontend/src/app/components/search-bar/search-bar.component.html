@@ -1,0 +1,5 @@
+<div class="search-bar">
+    <span class="material-icons">menu</span>
+    <input type="text" placeholder="Rechercher un restaurant" [(ngModel)]="searchQuery" (keydown)="beginSearch($event)">
+    <button class="search" (click)="queryChange()"><span class="material-icons">search</span></button>
+</div>

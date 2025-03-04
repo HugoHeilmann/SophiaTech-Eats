@@ -1,0 +1,12 @@
+<div class="home-page">
+    <app-sidebar>
+        <app-search-bar (query)="getRestaurantByName($event)"></app-search-bar>
+        <app-availability (availability)="getRestaurantByAvailability($event)"></app-availability>
+        <app-filter (filter)="getRestaurantByFilter($event)"></app-filter>
+    </app-sidebar>
+    <div class="main-content">
+        <div class="restaurants-container">
+            <app-restaurant-card *ngFor="let restaurant of restaurants" (click)="getRestaurantMenus(restaurant)" [restaurant]="restaurant"></app-restaurant-card>
+        </div>
+    </div>
+</div>

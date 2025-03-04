@@ -1,0 +1,30 @@
+.toaster{
+    z-index: 1000;
+    position: fixed;
+    top: 100px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color:white;
+    padding: 10px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid;
+    transition: all 0.3s;
+    height: 50px;
+    width: 200px;
+
+    .logo{
+        width: 30px;
+        height: 30px;
+        filter: invert(1);
+    }
+
+    p{
+        margin: 0;
+        margin-left: 10px;
+    }
+    
+}

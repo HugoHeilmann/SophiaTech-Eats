@@ -1,0 +1,8 @@
+<div class="item-card" (click)="showBigCard()">
+    <img [src]="menu.image">
+    <div class="text-content">
+        <h4>{{menu.name}}</h4>
+        <p>{{menu.price}}€</p>
+    </div>
+</div>
+<app-item-big-card *ngIf="showCard" [menu]="menu" (addMenu)="handleAddMenu($event)" (closeCard)="closeBigCard()"></app-item-big-card>

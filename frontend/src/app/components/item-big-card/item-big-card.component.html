@@ -1,0 +1,10 @@
+<div class="item-big-card">
+    <button id="close" (click)="close()">X</button>
+    <img [src]="menu.image">
+    <div class="text-content">
+        <h4>{{menu.name}}</h4>
+        <p>{{menu.price}}€</p>
+        <p>{{menu.description}}</p>
+    </div>
+    <button (click)="addToBasket(menu.name)">Ajouter l'article</button>
+</div>

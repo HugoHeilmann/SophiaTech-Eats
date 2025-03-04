@@ -1,0 +1,4 @@
+<div class="toaster" *ngIf="isDisplayed" [ngStyle]="{ 'background-color': isError?'rgba(255, 41, 41, 0.723)':'rgba(121, 255, 38, 0.647)', 'border-color': isError?'darkred':'darkgreen' }" [@toasterCollapse] [@toasterExpand]>
+    <img src="../../../assets/{{isError?'xmark-solid.svg':'check-solid.svg'}}" class="logo">
+    <p>{{this.message}}</p>
+</div>

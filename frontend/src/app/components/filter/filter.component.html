@@ -1,0 +1,8 @@
+<div class="filter">
+    <h3>{{filterType}}</h3>
+    <div *ngFor="let item of filters" class="checks" (click)="select(item)">
+        <label>{{item}}</label>
+        <input type="radio" [value]="item" [(ngModel)]="selectedItem" (change)="filterChange()"/>
+    </div>
+</div>
+  

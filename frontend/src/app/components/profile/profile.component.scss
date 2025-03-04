@@ -1,0 +1,75 @@
+#button {
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+#button:hover {
+    z-index: 2;
+    transform: scale(1.1);
+}
+
+#button {
+    height: auto;
+    width: 145px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1),  /* Ombre pour le côté nord (haut) */
+    0px 0px 0px rgba(0, 0, 0, 0.1),  /* Ombre pour le côté est (droite) */
+    0px 0px 0px #0000001a, /* Ombre pour le côté ouest (gauche) */
+    0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre pour le côté sud (bas) */
+    border-radius: 15px;
+    background: #ebe5ef;
+
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+
+    p {
+        margin: 0;
+        align-self: center;
+    }
+}
+
+#profile{
+    position: relative;
+    
+    .connect{
+        z-index: 100;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 145px;
+        background: #ebe5ef;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    ul{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        li{
+            list-style-type: none;
+            padding: 10px;
+
+            div{
+                width: 100%;
+                text-align: center;
+
+            }
+
+        }
+
+        li:hover{
+            background: #f5f5f5;
+        }
+        
+        .border-bottom{
+            border-bottom: 1px solid #858484;
+        }
+    }
+    
+}
+

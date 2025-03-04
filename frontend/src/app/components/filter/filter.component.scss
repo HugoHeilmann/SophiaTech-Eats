@@ -1,0 +1,83 @@
+.filter {
+    height: auto;
+    width: 280px;
+    padding: 10px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1),  /* Ombre pour le côté nord (haut) */
+    0px 0px 0px rgba(0, 0, 0, 0.1),  /* Ombre pour le côté est (droite) */
+    0px 0px 0px #0000001a, /* Ombre pour le côté ouest (gauche) */
+    0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre pour le côté sud (bas) */
+    border-radius: 15px;
+    background: #ebe5ef;
+}
+.checks {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin-left: 10px;
+    border-bottom: 1px solid #aaa;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.checks:last-child {
+    border-bottom: none;
+}
+
+.checks:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.02);
+}
+
+.checks input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #bbb;
+    background-color: white;
+    outline: none;
+    transition: border 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.checks input[type="radio"]:checked {
+    border-color: #34495e;
+    background-color: #34495e;
+    transform: scale(1.1);
+}
+
+.checks input[type="radio"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.checks input[type="radio"]:hover {
+    border-color: #34495e;
+}
+
+.checks label {
+    font-size: 16px;
+    color: #555;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.checks input[type="radio"]:hover + label {
+    color: #34495e;
+}
+
+.checks input[type="radio"]:checked + label {
+    font-weight: bold;
+    color: #34495e;
+}

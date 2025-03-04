@@ -1,0 +1,124 @@
+.login-page{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    filter: invert(0.2);
+    transition: all 0.3s;
+}
+
+.close:hover{
+    filter: invert(0.5);
+}
+
+.close:active{
+    transform: scale(0.9);
+}
+
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('../../../assets/bg-login.png') no-repeat center center/cover;
+    filter: blur(5px);
+    animation: goUpAndBack 20s ease-in-out infinite;
+}
+
+@keyframes goUpAndBack {
+    0% {
+        background-position: center 100%; /* Start with the image below the screen */
+    }
+    50% {
+        background-position: center 0; /* Move the image upwards to fit the screen */
+    }
+    100% {
+        background-position: center 100%; /* Move the image back below the screen */
+    }
+}
+
+
+.login-form{
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: 300px;
+    width: 30vw;
+    height: 50vh;
+    min-height: 400px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #ccc;
+    background-color: white;
+    
+    .external-login{
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        border-top: 1px solid #ccc;
+        padding: 10px 0 ;
+
+        img{
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        img:active{
+            transform: scale(0.9);
+        }
+    }
+}
+
+a{
+    cursor: pointer;
+    padding: 10px;
+}
+
+.btn{
+    width: 40%;
+    margin-top: 10px;
+    background-color: #76b8ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn:hover{
+    background-color: #4d94ff;
+    transform: scale(1.05);
+}
+
+.btn:active{
+    background-color: #0056b3;
+    transform: scale(1);
+}
+
+h1{
+    margin: 10px;
+}
+
+a{
+    text-decoration: none;
+    color: #4f565d;
+}

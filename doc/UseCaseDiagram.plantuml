@@ -1,0 +1,50 @@
+@startuml
+
+left to right direction
+package Utilisateurs {
+    :Manager de restaurant: as RestaurantManagerUser
+    :Utilisateur enregisté: as RegisteredUser
+    :Utilisateur d'internet: as InternetUser
+}
+
+InternetUser <|- RegisteredUser
+
+
+package Externes {
+    :Systeme de paiement: as PaymentSystem
+}
+
+
+package Actions {
+    (Passer une commande) as (OrderCase)
+    (Paiement de la commande) as (CommandPaymentCase)
+    (Selection des informations de la commande \n[restaurant, localisation, horaire de livraison, articles]) as (InformationSelectionCase)
+
+    (Créer un groupe \n [localisation, horaire de livraison]) as (GroupCreationCase)
+    (Rejoindre un groupe) as (GroupJoinCase)
+    (Valider et clôturer la commande de groupe) as (ValidateGroupCommand)
+
+    (Parcourir le menu des restaurants) as (RestaurantMenuCase)
+    (Rechercher un restaurant \n[nom, type de nourriture, disponibilité]) as (RestaurantCase)
+
+    (Mettre à jour le menu \n[changer les plats, temps de préparation]) as (UpdateMenuCase)
+    (Mettre à jour les horaires d'ouverture \n[horaire, effectifs]) as (UpdateOpeningHoursCase)
+
+    RegisteredUser --> OrderCase
+    RegisteredUser --> GroupCreationCase
+
+    OrderCase ..> InformationSelectionCase: includes
+    OrderCase ..> CommandPaymentCase: includes
+    OrderCase <. GroupJoinCase: extends
+    GroupJoinCase <.. ValidateGroupCommand: extends
+    GroupCreationCase<... ValidateGroupCommand: extends
+
+    CommandPaymentCase <-- PaymentSystem
+
+    InternetUser --> RestaurantMenuCase
+    InternetUser --> RestaurantCase
+
+    RestaurantManagerUser --> UpdateMenuCase
+    RestaurantManagerUser --> UpdateOpeningHoursCase
+}
+@enduml
